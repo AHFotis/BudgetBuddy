@@ -11,7 +11,7 @@ request.onsuccess = function(event) {
 
   // check if app is online before reading from db
   if (navigator.onLine) {
-    queryDatabase();
+    checkDatabase();
   }
 };
 
@@ -19,13 +19,13 @@ request.onerror = function(event) {
   console.log("Oh no! " + event.target.errorCode);
 };
 
-function saveTransaction(record) {
+function saveRecord(record) {
   const transaction = db.transaction(["pending"], "readwrite");
   const store = transaction.objectStore("pending");
   store.add(record);
 }
 
-function queryDatabase() {
+function checkDatabase() {
   const transaction = db.transaction(["pending"], "readwrite");
   const store = transaction.objectStore("pending");
   const getAll = store.getAll();
@@ -51,4 +51,4 @@ function queryDatabase() {
 }
 
 // listen for app coming back online
-window.addEventListener("online", queryDatabase);
+window.addEventListener("online", checkDatabase);
